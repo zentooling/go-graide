@@ -14,6 +14,8 @@ const (
 	BASE    = layout + ".html" + ext
 	CONTACT = "contact.html" + ext
 	INDEX   = "index.html" + ext
+	NEW   = "new.html" + ext
+	EDIT   = "edit.html" + ext
 )
 
 type View struct {
@@ -34,16 +36,18 @@ func (v View) ExecuteTemplate(wr io.Writer, name string, data any) error {
 // to be called in 'main' once - TODO make proper singleton
 func New() *View {
 
-	contact := root + CONTACT
-	index := root + INDEX
-	base := root + BASE
-
 	templateMap := make(map[string]*template.Template)
 	// templates need to be stitched together, inheritance is not supported
-	templateMap[INDEX] = template.Must(template.ParseFiles(base, index))
-	templateMap[CONTACT] = template.Must(template.ParseFiles(base, contact))
+	templateMap[INDEX] = newTemplate(INDEX)
+	templateMap[CONTACT] = newTemplate(CONTACT)
+	templateMap[NEW] = newTemplate(NEW)
+	templateMap[EDIT] = newTemplate(EDIT)
 	return &View{
 		templateMap: templateMap,
 	}
 
+}
+
+func newTemplate(templateName string) *template.Template {
+	return template.Must(template.ParseFiles(root + BASE, root + templateName))
 }

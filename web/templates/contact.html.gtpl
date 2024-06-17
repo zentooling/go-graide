@@ -4,13 +4,13 @@
 
     <form action="/contact" method="get" class="tool-bar">
         <label for="search">Search Term</label>
-        <input id="search" type="search" name="q" value="" />
+        <input id="search" type="search" name="q" value="{{ .Search }}" />
         <input type="submit" value="Search"/>
     </form>
     <table>
         <thead>
             <tr>
-                <th>from Contacts.html</th>
+                <th>from Contact.html</th>
             </tr>
             </thead>
         <tbody>
@@ -29,7 +29,7 @@
         </tbody>
     </table>
     <p>
-        <a href="/contacts/new">Add Contact</a>
+        <a href="/contact/new">Add Contact</a>
     </p>
     
 {{ end }}
