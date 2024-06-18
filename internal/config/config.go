@@ -10,7 +10,7 @@ import (
 )
 
 var log = logger.New("config")
-var Cfg *ConfigStruct = nil
+var cfg *ConfigStruct = nil
 
 var mutex = sync.Mutex{}
 
@@ -23,27 +23,33 @@ type ConfigStruct struct {
 		Username string `yaml:"user" env:"DB_USERNAME"`
 		Password string `yaml:"pass" env:"DB_PASSWORD"`
 	} `yaml:"database"`
+	Template struct {
+		RootDir string `yaml:"root_dir"`
+	} `yaml:"template"`
 }
 
-func Config() *ConfigStruct {
-	return Cfg
+func Instance() *ConfigStruct {
+	if cfg == nil {
+		log.Fatalln("config not initiailized. config.New() must be called before config.Instance()")
+	}
+	return cfg
 }
 
 func New(fname string) *ConfigStruct {
 	mutex.Lock()
 	defer mutex.Unlock()
-	if Cfg == nil {
+	if cfg == nil {
 		log.Println("initializaing config global")
-		Cfg = &ConfigStruct{}
+		cfg = &ConfigStruct{}
 	}
-	err := cleanenv.ReadConfig(fname, Cfg)
+	err := cleanenv.ReadConfig(fname, cfg)
 	cwd, _ := os.Getwd()
 	if err != nil {
 		log.Fatalf("unable to process cfg file %s from dir %s, %+v", fname, cwd, err)
 	}
 	fullFname := cwd + fname
-	help, _ := cleanenv.GetDescription(Cfg, &fullFname)
+	help, _ := cleanenv.GetDescription(cfg, &fullFname)
 	log.Println(help)
 
-	return Cfg
+	return cfg
 }
