@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"path/filepath"
 	"sync"
 
 	"github.com/ilyakaznacheev/cleanenv"
@@ -24,7 +25,7 @@ type ConfigStruct struct {
 		Password string `yaml:"pass" env:"DB_PASSWORD"`
 	} `yaml:"database"`
 	Template struct {
-		RootDir string `yaml:"root_dir"`
+		RootDir string `yaml:"root_dir" env:"TEMPLATE_ROOT"`
 	} `yaml:"template"`
 }
 
@@ -47,7 +48,7 @@ func New(fname string) *ConfigStruct {
 	if err != nil {
 		log.Fatalf("unable to process cfg file %s from dir %s, %+v", fname, cwd, err)
 	}
-	fullFname := cwd + fname
+	fullFname := filepath.Join(cwd, fname)
 	help, _ := cleanenv.GetDescription(cfg, &fullFname)
 	log.Println(help)
 
