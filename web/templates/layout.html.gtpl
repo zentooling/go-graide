@@ -8,12 +8,43 @@
     <link rel="stylesheet" href="/web/static/css/missing.min.css">
     <link rel="stylesheet" href="/web/static/css/site.css">
     <!-- calculate integrity at https://www.srihash.org/ -->
-    <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js" 
-    integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js"
+        integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2"
+        crossorigin="anonymous"></script>
     <link rel="icon" href="data:,">
+    <div id="flash">
+    <script>
+
+        function flashRemove() {
+            const flash = document.getElementById('flash');
+            // const flash = document.querySelector('#flash');
+            if (flash && flash != null) { flash.remove() }
+            timeoutFunc()
+        }
+        function timeoutFunc() {
+            setTimeout(flashRemove, 5000)
+
+        }
+        
+        timeoutFunc()
+        //    setTimeout(() => {
+        //         //flash.textContent = '';
+        //         flash.remove();
+        //     }, 3000);
+        // setTimeout(fade_out, 5000);
+        // function fade_out() {
+        //     $("#flash").fadeOut().empty();
+        // }
+    </script>
+    <ul class=flash>
+        <li>Message1</li>
+        <li>Message2</li>
+        <li>Message3</li>
+    </ul>
+    </div>
 </head>
 
-<body hx-boost="true">
+<body hx-boost="true" id="layout-body">
     <main>
         <header>
             <h1>

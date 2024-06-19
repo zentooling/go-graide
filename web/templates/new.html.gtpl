@@ -8,7 +8,7 @@
         <div class="table rows">
             <p>
                 <label for="email">Email</label>
-                <input name="email" id="email" type="text" placeholder="Email" value="{{ .Email }}">
+                <input name="email" id="email" type="email" placeholder="Email" value="{{ .Email }}">
                 <span class="error">{{ index .Errors "email"  }}</span>
             </p>
             <p>

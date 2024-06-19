@@ -94,8 +94,24 @@ func main() {
 		for key, value := range r.Form {
 			log.Printf("key %s value %s\n", key, value)
 		}
+		newCt := NewContact()
+		newCt.First = r.FormValue("first_name")
+		newCt.Last = r.FormValue("last_name")
+		newCt.Email = r.FormValue("email")
+		newCt.Phone = r.FormValue("phone")
+		newCt.Errors["email"] = "bad email address"
+		err := true
 
-		http.Redirect(w, r, "/contact", http.StatusFound)
+		if err {
+			err := view.ExecuteTemplate(w, template.NEW, newCt)
+			if err != nil {
+				log.Println("unable to execute template "+template.NEW, err)
+			}
+		} else {
+			http.Redirect(w, r, "/contact", http.StatusFound)
+
+		}
+
 	})
 	err := mux.Listen()
 	log.Fatal(err)
