@@ -1,7 +1,19 @@
-.flash {
+/* .flash {
     display: block;
+    text-align: center;
     background-color: #2fdc2f !important;
     color: white;
+    font-weight: bold;
+    padding: 12px;
+    border: 1px solid black;
+    border-radius: 8px;
+    margin: 16px;
+} */
+ul.flash {
+    text-align: center;
+    list-style-type: none; /* Remove bullets */
+    background-color: #25b625 !important;
+    color: rgb(231, 214, 214);
     font-weight: bold;
     padding: 12px;
     border: 1px solid black;
