@@ -9,7 +9,7 @@
     border-radius: 8px;
     margin: 16px;
 } */
-ul.flash {
+.flash {
     text-align: center;
     list-style-type: none; /* Remove bullets */
     background-color: #25b625 !important;
@@ -19,7 +19,29 @@ ul.flash {
     border: 1px solid black;
     border-radius: 8px;
     margin: 16px;
+    transition: opacity 2s ease-in-out;
+    opacity: 1;
 }
+.dummy-wrap {
+    animation: slideup 3s forwards;
+    -moz-animation: slideup 3s forwards;
+    -webkit-animation: slideup 3s forwards;
+    -o-animation: slideup 3s forwards;
+    position: absolute;
+  }
+  
+  @keyframes slideup {
+      0% {
+          top: 0px;
+      }
+      75% {
+          top: 0px;
+      }
+      100% {
+          /* top: -60px; */
+          top: -100%;
+      }
+  }
 
 table {
     width: 100%;
