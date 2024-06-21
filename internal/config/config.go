@@ -11,16 +11,19 @@ import (
 )
 
 var log = logger.New("config")
-var cfg *ConfigStruct = nil
+var cfg *configStruct = nil
 
 var mutex = sync.Mutex{}
 
-type ConfigStruct struct {
+type configStruct struct {
 	Server struct {
 		Port string `yaml:"port" env:"SERVER_PORT" env-default:"4000"`
 		Host string `yaml:"host" env:"SERVER_HOST" env-default:"0.0.0.0"`
 	} `yaml:"server"`
 	Database struct {
+		Host     string `yaml:"host" env:"DB_HOST"`
+		Port     string `yaml:"port" env:"DB_PORT"`
+		Database string `yaml:"database" env:"DB_DATABASE"`
 		Username string `yaml:"user" env:"DB_USERNAME"`
 		Password string `yaml:"pass" env:"DB_PASSWORD"`
 	} `yaml:"database"`
@@ -29,19 +32,19 @@ type ConfigStruct struct {
 	} `yaml:"template"`
 }
 
-func Instance() *ConfigStruct {
+func Instance() *configStruct {
 	if cfg == nil {
 		log.Fatalln("config not initiailized. config.New() must be called before config.Instance()")
 	}
 	return cfg
 }
 
-func New(fname string) *ConfigStruct {
+func New(fname string) *configStruct {
 	mutex.Lock()
 	defer mutex.Unlock()
 	if cfg == nil {
 		log.Println("initializaing config global")
-		cfg = &ConfigStruct{}
+		cfg = &configStruct{}
 	}
 	err := cleanenv.ReadConfig(fname, cfg)
 	cwd, _ := os.Getwd()
