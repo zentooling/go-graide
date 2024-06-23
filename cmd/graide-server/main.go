@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/zentooling/graide/internal/auth"
 	"github.com/zentooling/graide/internal/config"
 	"github.com/zentooling/graide/internal/logger"
 	"github.com/zentooling/graide/internal/server"
@@ -42,6 +43,13 @@ func main() {
 	log.Println("template initialization")
 	view := template.New()
 	mux := server.New(cfg.Server.Host + ":" + cfg.Server.Port)
+	mux.HandleFunc("POST /login", auth.Login)
+	mux.HandleFunc("GET /login", func(w http.ResponseWriter, r *http.Request) {
+		err := view.ExecuteTemplate(w, template.LOGIN, nil)
+		if err != nil {
+			log.Println("unable to execute template "+template.INDEX, err)
+		}
+	})
 	mux.HandleFunc("GET /index", func(w http.ResponseWriter, r *http.Request) {
 		data := IndexPageData{
 			Search: r.URL.Query().Get("q"),

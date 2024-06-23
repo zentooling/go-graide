@@ -17,6 +17,7 @@ const (
 	INDEX   = "index.html.gtpl"
 	NEW     = "new.html.gtpl"
 	EDIT    = "edit.html.gtpl"
+	LOGIN   = "login.html.gtpl"
 )
 
 type View struct {
@@ -39,6 +40,7 @@ func New() *View {
 	loadTemplate(templateMap, CONTACT)
 	loadTemplate(templateMap, NEW)
 	loadTemplate(templateMap, EDIT)
+	loadTemplate(templateMap, LOGIN)
 	return &View{
 		templateMap: templateMap,
 	}
