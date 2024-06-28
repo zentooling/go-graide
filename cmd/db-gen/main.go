@@ -33,28 +33,28 @@ func main() {
 	}
 
 	// Migrate the schema
-	if nil != db.AutoMigrate(&database.Institution{}) {
+	if err = db.AutoMigrate(&database.Institution{}); err != nil {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
-	if nil != db.AutoMigrate(&database.Instructer{}) {
+	if err = db.AutoMigrate(&database.Instructer{}); err != nil {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
-	if nil != db.AutoMigrate(&database.Class{}) {
+	if err = db.AutoMigrate(&database.Class{}); err != nil {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
-	if nil != db.AutoMigrate(&database.Student{}) {
+	if err = db.AutoMigrate(&database.Student{}); err != nil {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
-	if nil != db.AutoMigrate(&database.Assignment{}) {
+	if err = db.AutoMigrate(&database.Assignment{}); err != nil {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
-	if nil != db.AutoMigrate(&database.Rubric{}) {
+	if err = db.AutoMigrate(&database.Rubric{}); err != nil {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
-	if nil != db.AutoMigrate(&database.Grade{}) {
+	if err = db.AutoMigrate(&database.Grade{}); err != nil {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
-	if nil != db.AutoMigrate(&database.Work{}) {
+	if err = db.AutoMigrate(&database.Work{}); err != nil {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
 }
