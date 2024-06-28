@@ -25,7 +25,7 @@ func main() {
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
-			SingularTable: true,     // singular table names (student vs students,etc)
+			SingularTable: true, // singular table names (student vs students,etc)
 		},
 	})
 	if err != nil {
@@ -33,39 +33,28 @@ func main() {
 	}
 
 	// Migrate the schema
-	err = db.AutoMigrate(&database.Institution{})
-	if err != nil {
+	if nil != db.AutoMigrate(&database.Institution{}) {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
-	err = db.AutoMigrate(&database.Instructer{})
-	if err != nil {
+	if nil != db.AutoMigrate(&database.Instructer{}) {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
-	err = db.AutoMigrate(&database.Class{})
-	if err != nil {
+	if nil != db.AutoMigrate(&database.Class{}) {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
-	err = db.AutoMigrate(&database.Student{})
-	if err != nil {
+	if nil != db.AutoMigrate(&database.Student{}) {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
-	err = db.AutoMigrate(&database.Assignment{})
-	if err != nil {
+	if nil != db.AutoMigrate(&database.Assignment{}) {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
-	err = db.AutoMigrate(&database.Rubric{})
-	if err != nil {
+	if nil != db.AutoMigrate(&database.Rubric{}) {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
-	if err != nil {
+	if nil != db.AutoMigrate(&database.Grade{}) {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
-	err = db.AutoMigrate(&database.Grade{})
-	if err != nil {
-		log.Fatalf("AutoMigrate: +%v\n", err)
-	}
-	err = db.AutoMigrate(&database.Work{})
-	if err != nil {
+	if nil != db.AutoMigrate(&database.Work{}) {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
 }
