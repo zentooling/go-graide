@@ -12,6 +12,30 @@
         integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2"
         crossorigin="anonymous"></script>
     <link rel="icon" href="data:,">
+    <!-- <div id="flash">
+        <script>
+
+            function flashRemove() {
+                const flash = document.getElementById('flash');
+                // const flash = document.querySelector('#flash');
+                if (flash && flash != null) { flash.remove() }
+                timeoutFunc()
+            }
+            function timeoutFunc() {
+                setTimeout(flashRemove, 5000)
+
+            }
+
+            timeoutFunc()
+            //    setTimeout(() => {
+            //         //flash.textContent = '';
+            //         flash.remove();
+            //     }, 3000);
+            // setTimeout(fade_out, 5000);
+            // function fade_out() {
+            //     $("#flash").fadeOut().empty();
+            // }
+        </script> -->
     <div class="dummy-wrap">
         <div class="success-wrap successfully-saved">
             <ul class="flash">
