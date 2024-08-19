@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/zentooling/graide/database"
 	"net/http"
 
 	"github.com/zentooling/graide/internal/auth"
@@ -42,6 +43,10 @@ func main() {
 
 	log.Println("template initialization")
 	view := template.New()
+
+	log.Println("persistence initialization")
+	database.Initialize()
+
 	mux := server.New(cfg.Server.Host + ":" + cfg.Server.Port)
 	mux.HandleFunc("POST /login", auth.Login)
 	mux.HandleFunc("GET /login", func(w http.ResponseWriter, r *http.Request) {
@@ -60,6 +65,17 @@ func main() {
 		err := view.ExecuteTemplate(w, template.INDEX, data)
 		if err != nil {
 			log.Println("unable to execute template "+template.INDEX, err)
+		}
+	})
+	mux.HandleFunc("GET /institution", func(w http.ResponseWriter, r *http.Request) {
+
+		store := database.InstitutionStore{}
+
+		institutions := store.GetAll()
+
+		err := view.ExecuteTemplate(w, template.INSTITUTION, map[string]interface{}{"Search": "", "Institutions": institutions})
+		if err != nil {
+			log.Println("unable to execute template "+template.INSTITUTION, err)
 		}
 	})
 	mux.HandleFunc("GET /contact", func(w http.ResponseWriter, r *http.Request) {

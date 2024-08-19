@@ -5,7 +5,13 @@ import "gorm.io/gorm"
 type Institution struct {
 	gorm.Model
 	Name        string
-	Address     string
+	Street      string
+	Street2     string
+	City        string
+	State       string
+	Zip         string
+	Phone       string
+	Email       string
 	Instructers []Instructer
 }
 

@@ -12,12 +12,13 @@ const (
 	// private (lowercase)
 	layout = "layout"
 	// exported
-	BASE    = layout + ".html.gtpl"
-	CONTACT = "contact.html.gtpl"
-	INDEX   = "index.html.gtpl"
-	NEW     = "new.html.gtpl"
-	EDIT    = "edit.html.gtpl"
-	LOGIN   = "login.html.gtpl"
+	BASE        = layout + ".gohtml"
+	CONTACT     = "contact.gohtml"
+	INDEX       = "index.gohtml"
+	INSTITUTION = "institution.gohtml"
+	NEW         = "new.gohtml"
+	EDIT        = "edit.gohtml"
+	LOGIN       = "login.gohtml"
 )
 
 type View struct {
@@ -38,6 +39,7 @@ func New() *View {
 	// templates need to be stitched together, inheritance is not supported
 	loadTemplate(templateMap, INDEX)
 	loadTemplate(templateMap, CONTACT)
+	loadTemplate(templateMap, INSTITUTION)
 	loadTemplate(templateMap, NEW)
 	loadTemplate(templateMap, EDIT)
 	loadTemplate(templateMap, LOGIN)
@@ -52,5 +54,16 @@ func loadTemplate(templateMap map[string]*template.Template, templateName string
 	rootDir := config.Instance().Template.RootDir
 	base := filepath.Join(rootDir, BASE)
 	tmplFile := filepath.Join(rootDir, templateName)
-	templateMap[templateName] = template.Must(template.ParseFiles(tmplFile, base))
+
+	inject := func(in string) string { return "Inject " + in + " Inject" }
+	templFuncMap := template.FuncMap{
+		"tt": inject,
+	}
+
+	tmpl, err := template.New("").Funcs(templFuncMap).ParseFiles(tmplFile, base)
+	if err != nil {
+		panic(err)
+	}
+	//tmpl = tmpl.Funcs(templFuncMap)
+	templateMap[templateName] = template.Must(tmpl, err)
 }

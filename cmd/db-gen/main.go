@@ -57,4 +57,9 @@ func main() {
 	if err = db.AutoMigrate(&database.Work{}); err != nil {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
+
+	// create reference data
+
+	inst := database.CreateInstitution()
+	db.Create(&inst)
 }

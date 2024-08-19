@@ -2,10 +2,12 @@ package auth
 
 import (
 	"fmt"
+	"github.com/zentooling/graide/internal/logger"
 	"net/http"
 	"time"
 )
 
+var log = logger.New("auth")
 var jwtKey = []byte("my_secret_key") // TODO make legit
 
 // func Login(user string, password string, session http.ResponseWriter)
@@ -13,7 +15,13 @@ var jwtKey = []byte("my_secret_key") // TODO make legit
 func Login(w http.ResponseWriter, r *http.Request) {
 
 	// get user and password from POST body
-	r.ParseForm()
+	err := r.ParseForm()
+	if err != nil {
+		log.Println("parse form", err)
+		// appropriate message?
+		w.WriteHeader(http.StatusPartialContent)
+		return
+	}
 	// TODO user/password must be passed over https
 	user := r.FormValue("user_name")
 	password := r.FormValue("password")
@@ -23,6 +31,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	if err := userLookup(user, password); err != nil {
 		w.WriteHeader(http.StatusUnauthorized)
 		fmt.Print(w, "not authorized")
+		return
 	}
 
 	var cookie = http.Cookie{
