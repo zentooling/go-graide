@@ -1,8 +1,11 @@
-{{define "layout"}}
+{{define "html-start"}}
 
 <!doctype html>
 <html lang="">
 
+{{ end }}
+
+{{define "head"}}
 <head>
     <title>Contact App</title>
     <link rel="stylesheet" href="/web/static/css/missing.min.css">
@@ -23,19 +26,71 @@
     </div>
 </head>
 
-<body hx-boost="true" id="layout-body">
-    <main>
-        <header>
+{{ end }}
+
+{{ define "body-start" }}
+<body hx-boost="true" class="overflow:auto box margin grid grid-even-rows">
+
+{{/*
+<body hx-boost="true" class="layout-main">
+*/}}
+<header data-rows="1" data-cols="1 4">Header</header>
+
+{{/*
+        <header class="layout-item layout-header">
             <h1>
-                <span style="text-transform:uppercase;">graide.app</span>
-                <sub-title>A Grading Application</sub-title>
+                <span style="text-transform:uppercase;">in header</span>
+                <sub-title>In header</sub-title>
             </h1>
         </header>
-        {{/* content block defined in each 'master' html file */}}
-        {{ template "content" .}}
-    </main>
+*/}}
+<nav data-rows="1" data-cols="4 12">
+    <div class="navbar">
+        <nav aria-label="Site sections">
+            <ul role="list">
+                <li><a href="/">Stuff</a>
+                <li><a href="/docs">Docs</a>
+                <li><a href="/docs">Contribute</a>
+                <li><a href="/docs">Donate</a>
+            </ul>
+        </nav>
+    </div>
+</nav>
+{{/*
+        <nav class="layout-item layout-nav">
+            <p>This is the nav bar</p>
+        </nav>
+*/}}
+<main class="box info" data-rows="2 6" data-cols="1 9">
+    <div>
+{{/* content block defined in each 'master' html file */}}
+
+{{ end }}
+
+
+{{ define "body-end" }}
+    </div>
+        </main>
+<aside class="box info" data-rows="2 6" data-cols="9 12">Aside</aside>
+<footer class="box info" data-cols="1 12">Footer</footer>
 </body>
+
+{{ end }}
+
+{{ define "html-end" }}
 
 </html>
 
 {{ end }}
+
+{{ define "page-start"}}
+    {{ template "html-start" . }}
+    {{ template "head" . }}
+    {{ template "body-start" . }}
+{{ end }}
+
+{{ define "page-end"}}
+    {{ template "body-end" . }}
+    {{ template "html-end" . }}
+{{ end }}
+

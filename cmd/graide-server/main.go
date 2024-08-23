@@ -99,6 +99,11 @@ func main() {
 			log.Println("unable to execute template "+template.EDIT, err)
 		}
 	})
+	mux.HandleFunc("POST /contact/{id}/edit", func(w http.ResponseWriter, r *http.Request) {
+		idString := r.PathValue("id")
+		log.Printf("POST /contact/%s/edit\n", idString)
+		http.Redirect(w, r, "/contact", http.StatusFound)
+	})
 	mux.HandleFunc("DELETE /contact/{id}", func(w http.ResponseWriter, r *http.Request) {
 		log.Printf("in DELETE /contact/%s ", r.PathValue("id"))
 		log.Println("redirecting ...")

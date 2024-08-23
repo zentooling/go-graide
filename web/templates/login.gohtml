@@ -1,7 +1,7 @@
 
-{{ template "layout" . }}
-
-{{ define "content" }}
+{{ template "html-start" . }}
+{{ template "head" . }}
+{{ template "body-start" . }}
 
 <form action="/login" method="post">
     <fieldset>
@@ -19,4 +19,5 @@
     </fieldset>
 </form>
 
-{{ end }}
+{{ template "html-end" . }}
+{{ template "body-end" . }}
