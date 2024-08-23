@@ -28,7 +28,7 @@ type View struct {
 func (v View) ExecuteTemplate(wr io.Writer, name string, data any) error {
 	// the base template is named 'layout'. It is executed as it refers to the 'content' template which is defined
 	// in the outer template file
-	return v.templateMap[name].ExecuteTemplate(wr, layout, data)
+	return v.templateMap[name].ExecuteTemplate(wr, name, data)
 
 }
 

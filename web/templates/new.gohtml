@@ -1,7 +1,8 @@
+{{ template "html-start" . }}
+{{ template "head" . }}
+{{ template "body-start" . }}
 
-{{ template "layout" . }}
 
-{{ define "content" }}
 <form action="/contact/new" method="post">
     <fieldset>
         <legend>Contact Values</legend>
@@ -35,5 +36,6 @@
     <a href="/contact">Back</a>
 </p>
 
-{{ end }}
+{{ template "html-end" . }}
+{{ template "body-end" . }}
 

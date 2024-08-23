@@ -1,6 +1,7 @@
-{{ template "layout" . }}
 
-{{ define "content" }}
+{{ template "html-start" . }}
+{{ template "head" . }}
+{{ template "body-start" . }}
 
     <form action="/institution" method="get" class="tool-bar">
         <label for="search">Search Term</label>
@@ -35,6 +36,7 @@
     <p>
         <a href="/institution/new">Add Institution</a>
     </p>
-    
-{{ end }}
 
+
+    {{ template "html-end" . }}
+    {{ template "body-end" . }}
