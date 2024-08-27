@@ -1,11 +1,9 @@
 package template
 
 import (
+	"github.com/zentooling/graide/internal/config"
 	"html/template"
 	"io"
-	"path/filepath"
-
-	"github.com/zentooling/graide/internal/config"
 )
 
 const (
@@ -28,42 +26,28 @@ type View struct {
 func (v View) ExecuteTemplate(wr io.Writer, name string, data any) error {
 	// the base template is named 'layout'. It is executed as it refers to the 'content' template which is defined
 	// in the outer template file
-	return v.templateMap[name].ExecuteTemplate(wr, name, data)
+	return v.templateMap["root"].ExecuteTemplate(wr, name, data)
 
 }
 
-// to be called in 'main' once - TODO make proper singleton
 func New() *View {
 
 	templateMap := make(map[string]*template.Template)
-	// templates need to be stitched together, inheritance is not supported
-	loadTemplate(templateMap, INDEX)
-	loadTemplate(templateMap, CONTACT)
-	loadTemplate(templateMap, INSTITUTION)
-	loadTemplate(templateMap, NEW)
-	loadTemplate(templateMap, EDIT)
-	loadTemplate(templateMap, LOGIN)
+	rootDir := config.Instance().Template.RootDir + "/*.gohtml"
+	inject := func(in string) string { return "Inject " + in + " Inject" }
+	// create a test template function as proof of concept
+	templateFuncMap := template.FuncMap{
+		"tt": inject,
+	}
+
+	tmpl, err := template.New("").Funcs(templateFuncMap).ParseGlob(rootDir)
+	if err != nil {
+		panic(err)
+	}
+	//tmpl = tmpl.Funcs(templateFuncMap)
+	templateMap["root"] = template.Must(tmpl, err)
 	return &View{
 		templateMap: templateMap,
 	}
 
-}
-
-func loadTemplate(templateMap map[string]*template.Template, templateName string) {
-	// read template file root dir from config file
-	rootDir := config.Instance().Template.RootDir
-	base := filepath.Join(rootDir, BASE)
-	tmplFile := filepath.Join(rootDir, templateName)
-
-	inject := func(in string) string { return "Inject " + in + " Inject" }
-	templFuncMap := template.FuncMap{
-		"tt": inject,
-	}
-
-	tmpl, err := template.New("").Funcs(templFuncMap).ParseFiles(tmplFile, base)
-	if err != nil {
-		panic(err)
-	}
-	//tmpl = tmpl.Funcs(templFuncMap)
-	templateMap[templateName] = template.Must(tmpl, err)
 }

@@ -8,16 +8,24 @@
         <input id="search" type="search" name="q" value="{{ .Search }}" />
         <input type="submit" value="Search"/>
     </form>
-    <table>
+    <table style="white-space: nowrap">
+        <caption>Institutions</caption>
         <thead>
             <tr>
-                <th>Institutions</th>
+                <th width="3000px" style="width: 350px">Name</th>
+                <th>Street      </th>
+                <th>Street      </th>
+                <th>City        </th>
+                <th>State       </th>
+                <th>Zip         </th>
+                <th>Phone       </th>
+                <th>Email       </th>
             </tr>
             </thead>
         <tbody>
             {{range .Institutions}}
                 <tr>
-                    <td>{{ .Name }}</td>
+                    <td width="300px">{{ .Name }}</td>
                     <td>{{ .Street }}</td>
                     <td>{{ .Street2 }}</td>
                     <td>{{ .City }}</td>
