@@ -29,13 +29,14 @@
 {{ end }}
 
 {{ define "body-start" }}
-<body hx-boost="true" class="overflow:auto box margin grid grid-even-rows">
+<body hx-boost="true" class="overflow:auto margin grid ">
 
 {{/*
 <body hx-boost="true" class="layout-main">
 */}}
-<header data-rows="1" data-cols="1 4">Header</header>
-
+<header data-rows="1" data-cols="1 4">
+    <a href="#">Zen Tooling</a>
+</header>
 {{/*
         <header class="layout-item layout-header">
             <h1>
@@ -44,14 +45,14 @@
             </h1>
         </header>
 */}}
-<nav data-rows="1" data-cols="4 12">
-    <div class="navbar">
+<nav class="navbar" data-rows="1" data-cols="4 12">
+    <div>
         <nav aria-label="Site sections">
             <ul role="list">
-                <li><a href="/">Stuff</a>
-                <li><a href="/docs">Docs</a>
-                <li><a href="/docs">Contribute</a>
-                <li><a href="/docs">Donate</a>
+                <li><a href="/">Stuff</a></li>
+                <li><a href="/docs">Docs</a></li>
+                <li><a href="/docs">Contribute</a></li>
+                <li><a href="/docs">Donate</a></li>
             </ul>
         </nav>
     </div>
@@ -61,7 +62,7 @@
             <p>This is the nav bar</p>
         </nav>
 */}}
-<main class="box info" data-rows="2 6" data-cols="1 9">
+<main data-rows="2 6" data-cols="1 12">
     <div>
 {{/* content block defined in each 'master' html file */}}
 
@@ -70,9 +71,11 @@
 
 {{ define "body-end" }}
     </div>
-        </main>
-<aside class="box info" data-rows="2 6" data-cols="9 12">Aside</aside>
-<footer class="box info" data-cols="1 12">Footer</footer>
+</main>
+{{/*<aside class="box info" data-rows="2 6" data-cols="9 12">Aside</aside>*/}}
+<footer data-cols="1 12">
+    <h4>©️ 2024 Zen Tooling LLC</h4>
+</footer>
 </body>
 
 {{ end }}
@@ -93,4 +96,3 @@
     {{ template "body-end" . }}
     {{ template "html-end" . }}
 {{ end }}
-
