@@ -1,88 +1,101 @@
 {{define "html-start"}}
 
-<!doctype html>
-<html lang="">
+    <!doctype html>
+    <html lang="en">
 
 {{ end }}
 
 {{define "head"}}
-<head>
-    <title>Contact App</title>
-    <link rel="stylesheet" href="/web/static/css/missing.min.css">
-    <link rel="stylesheet" href="/web/static/css/site.css">
-    <!-- calculate integrity at https://www.srihash.org/ -->
-    <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js"
-        integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2"
-        crossorigin="anonymous"></script>
-    <link rel="icon" href="data:,">
-    <div class="dummy-wrap">
-        <div class="success-wrap successfully-saved">
-            <ul class="flash">
-                <li>This is a longer message</li>
-                <li>Message2</li>
-                <li>Message3</li>
-            </ul>
-        </div>
-    </div>
-</head>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+
+        <title>grade</title>
+        <script src="https://unpkg.com/htmx.org"></script>
+        <link rel="stylesheet" href="https://unpkg.com/missing.css">
+        <!-- Prism theme (https://prismjs.com/): -->
+        <link rel="stylesheet" href="https://unpkg.com/missing.css/dist/missing-prism.css">
+        <link rel="icon" type="image/x-icon" href="/web/static/images/favicon.ico">
+
+        <link href="https://fonts.bunny.net/css?family=source-sans-3:400,700|m-plus-code-latin:400,700"
+              rel="stylesheet">
+
+        <style>
+            :root {
+                --main-font: "Source Sans 3", -apple-system, system-ui, sans-serif;
+                --muted-fg: #3498db;
+
+            }
+
+            dfn > code {
+                font-style: normal;
+                text-decoration: 1px dashed var(--muted-fg) underline;
+            }
+
+            code a {
+                font-family: inherit;
+            }
+        </style>
+    </head>
 
 {{ end }}
 
 {{ define "body-start" }}
-<body hx-boost="true" class="overflow:auto margin grid ">
+<body hx-boost="true" class="overflow:auto ">
+<div class="grid " style="background-color: var(--muted-fg)">
+    <div class="center" data-rows="1" data-cols="1"><a href="http://zentooling.com"><img
+                    src="/web/static/images/favicon-32x32.png" alt="Zen Tooling"></a></div>
+    <div data-rows="1" data-cols="4 "><h3>Grade</h3></div>
+    <div data-rows="1" data-cols="7 "><h3>Zen Tooling</h3></div>
+</div>
 
-{{/*
-<body hx-boost="true" class="layout-main">
-*/}}
-<header data-rows="1" data-cols="1 4">
-    <a href="#">GrAIde</a>
+{{/*this div encompasses the rest of the layout*/}}
+<div class="sidebar-layout fullscreen">
+<header>
+    <nav>
+        <ul role="list">
+            <li><a href="/" aria-current="page">Home</a></li>
+            <li><a href="/teacher">Teachers</a></li>
+            <li><a href="/student">Students</a></li>
+            <li><a href="/assignment">Assignments</a></li>
+            <li><a href="#">Logout</a></li>
+            {{/*                <li>*/}}
+            {{/*                    <p><b>Tests</b></p>*/}}
+            {{/*                    <ul role="list" class="margin">*/}}
+            {{/*                        <li><a href="#">Test 1</a></li>*/}}
+            {{/*                        <li><a href="#">Lorem ipsum</a></li>*/}}
+            {{/*                    </ul>*/}}
+            {{/*                </li>*/}}
+            {{/*                <li><a href="#">Signed in as jdoe@example.com</a></li>*/}}
+            {{/*                <li><a href="#">Sign out</a></li>*/}}
+            {{/*                <li><a href="#">DevTools</a></li>*/}}
+            {{/*                <li><strong><a href="/demos" class="<button>">Back to missing.css website</a></strong></li>*/}}
+        </ul>
+    </nav>
 </header>
-{{/*
-        <header class="layout-item layout-header">
-            <h1>
-                <span style="text-transform:uppercase;">in header</span>
-                <sub-title>In header</sub-title>
-            </h1>
-        </header>
-*/}}
-<nav class="navbar" data-rows="1" data-cols="4 12">
+
     <div>
-        <nav aria-label="Site sections">
-            <ul role="list">
-                <li><a href="/">Stuff</a></li>
-                <li><a href="/docs">Docs</a></li>
-                <li><a href="/docs">Contribute</a></li>
-                <li><a href="/docs">Donate</a></li>
-            </ul>
-        </nav>
-    </div>
-</nav>
-{{/*
-        <nav class="layout-item layout-nav">
-            <p>This is the nav bar</p>
-        </nav>
-*/}}
-<main data-rows="2 6" data-cols="1 12">
-    <div>
+    <main class="margin padding">
 {{/* content block defined in each 'master' html file */}}
 
 {{ end }}
 
 
 {{ define "body-end" }}
-    </div>
-</main>
+    </main>
 {{/*<aside class="box info" data-rows="2 6" data-cols="9 12">Aside</aside>*/}}
-<footer data-cols="1 12">
+<footer>
     <h4>©️ 2024 Zen Tooling LLC</h4>
 </footer>
+    </div>
+</div>
 </body>
 
 {{ end }}
 
 {{ define "html-end" }}
 
-</html>
+    </html>
 
 {{ end }}
 
