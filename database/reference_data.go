@@ -10,7 +10,7 @@ func CreateInstitution() Institution {
 		Zip:         "80010",
 		Phone:       "303 555-1212",
 		Email:       "info@dps.edu",
-		Instructers: make([]Instructer, 0),
+		Instructors: make([]Instructor, 0),
 	}
 
 }

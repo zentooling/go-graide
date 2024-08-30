@@ -12,50 +12,60 @@ type Institution struct {
 	Zip         string
 	Phone       string
 	Email       string
-	Instructers []Instructer
+	Instructors []Instructor
 }
 
-type Instructer struct {
+type Instructor struct {
 	gorm.Model
 	InstitutionID uint
-	Name          string
+	FirstName     string
+	LastName      string
+	Phone         string
+	Email         string
 	Classes       []Class
 }
 type Class struct {
 	gorm.Model
-	InstructerID uint
+	InstructorID uint
 	Name         string
+	Description  string
 	Students     []Student `gorm:"many2many:class_x_student;"`
 	Assignments  []Assignment
+	Works        []Work
 }
 type Student struct {
 	gorm.Model
-	Classes     []Class `gorm:"many2many:class_x_student;"`
-	Assignments []Assignment
-	Name        string
+	Classes   []Class `gorm:"many2many:class_x_student;"`
+	Works     []Work
+	FirstName string
+	LastName  string
 }
 
 type Work struct {
+	gorm.Model
 	StudentID    uint
-	AssignmentID uint
+	ClassID      uint
 	GradeID      uint
+	AssignmentID uint
 	Work         string
 }
 
 type Assignment struct {
 	gorm.Model
-	StudentID uint
-	ClassID   uint
-	Text      string
-	RubricID  uint
+	ClassID  uint
+	RubricID uint
+	Works    []Work
+	Text     string
 }
 
 type Rubric struct {
 	gorm.Model
-	Text string
+	Assignments []Assignment
+	Text        string
 }
 
 type Grade struct {
 	gorm.Model
-	Value string
+	Works []Work
+	Grade string
 }

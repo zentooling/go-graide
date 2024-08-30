@@ -36,7 +36,7 @@ func main() {
 	if err = db.AutoMigrate(&database.Institution{}); err != nil {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
-	if err = db.AutoMigrate(&database.Instructer{}); err != nil {
+	if err = db.AutoMigrate(&database.Instructor{}); err != nil {
 		log.Fatalf("AutoMigrate: +%v\n", err)
 	}
 	if err = db.AutoMigrate(&database.Class{}); err != nil {
