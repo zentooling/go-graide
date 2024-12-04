@@ -42,6 +42,7 @@ func main() {
 	cfg := config.New("config.yml")
 
 	log.Printf("+%v", *cfg)
+	log.Printf("+%v", *cfg)
 
 	log.Println("template initialization")
 	view := template.New()
