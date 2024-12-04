@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+
 	"github.com/zentooling/graide/internal/config"
 	"github.com/zentooling/graide/internal/logger"
 	"gorm.io/driver/postgres"
@@ -35,15 +36,40 @@ func Initialize() {
 	DB = db
 }
 
-type InstitutionStore struct {
+func Shutdown() {
+	dbInstance, _ := DB.DB()
+	_ = dbInstance.Close()
 }
 
-func (store InstitutionStore) GetAll() []Institution {
+type InstitutionStore struct{}
 
+func (store InstitutionStore) GetAll() []Institution {
 	var ret []Institution
 
 	DB.Find(&ret)
 
 	return ret
+}
 
+type StudentStore struct{}
+
+func (store StudentStore) GetById(id uint) *Student {
+	ret := &Student{}
+
+	if db := DB.First(ret, id); db.Error != nil {
+		log.Printf("unable to find student with id %v: %v", id, db.Error)
+		return nil
+	}
+
+	return ret
+}
+
+func (store StudentStore) GetByIdWithClasses(id uint) *Student {
+	student := Student{}
+
+	if db := DB.Model(&student).Preload("Classes").Find(&student, id); db.Error != nil {
+		log.Printf("unable to find classes with student with id %v: %v", id, db.Error)
+		return nil
+	}
+	return &student
 }

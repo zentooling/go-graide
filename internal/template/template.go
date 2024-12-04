@@ -12,6 +12,7 @@ const (
 	// exported
 	BASE        = layout + ".gohtml"
 	CONTACT     = "contact.gohtml"
+	STUDENT     = "student.gohtml"
 	INDEX       = "index.gohtml"
 	INSTITUTION = "institution.gohtml"
 	NEW         = "new.gohtml"

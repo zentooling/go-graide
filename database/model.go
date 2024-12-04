@@ -1,6 +1,9 @@
 package database
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"time"
+)
 
 type Institution struct {
 	gorm.Model
@@ -29,6 +32,7 @@ type Class struct {
 	InstructorID uint
 	Name         string
 	Description  string
+	Period       string
 	Students     []Student `gorm:"many2many:class_x_student;"`
 	Assignments  []Assignment
 	Works        []Work
@@ -52,10 +56,12 @@ type Work struct {
 
 type Assignment struct {
 	gorm.Model
-	ClassID  uint
-	RubricID uint
-	Works    []Work
-	Text     string
+	ClassID     uint
+	RubricID    uint
+	Works       []Work
+	Description string
+	Text        string
+	DueDate     time.Time
 }
 
 type Rubric struct {

@@ -1,0 +1,1 @@
+SELECT * from class_x_studentSELECT * from class_x_studentSELECT * from class_x_student

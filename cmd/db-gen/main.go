@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/zentooling/graide/database"
 	"github.com/zentooling/graide/internal/config"
 	"github.com/zentooling/graide/internal/logger"
@@ -11,9 +13,8 @@ import (
 )
 
 func main() {
-
-	var log = logger.New("schema-gen")
-	var cfg = config.New("config.yml")
+	log := logger.New("schema-gen")
+	cfg := config.New("config.yml")
 
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=America/Denver",
 		cfg.Database.Host,
@@ -31,7 +32,10 @@ func main() {
 		log.Fatalf("unable to connect to database: +%v\n", err)
 	}
 
-	cleanDb(db)
+	defer func() {
+		dbInstance, _ := db.DB()
+		_ = dbInstance.Close()
+	}()
 
 	// Migrate the schema
 	if err = db.AutoMigrate(&database.Institution{}); err != nil {
@@ -97,12 +101,14 @@ func main() {
 		RubricID: rubric.ID,
 		ClassID:  eng101.ID,
 		Text:     "Change air in tires",
+		DueDate:  time.Now().Add(10 * time.Hour * 24),
 	}
 	db.Create(assignment)
 	assignment2 := &database.Assignment{
 		RubricID: rubric.ID,
 		ClassID:  eng101.ID,
 		Text:     "Arrange sock drawer",
+		DueDate:  time.Now().Add(7 * time.Hour * 24),
 	}
 	db.Create(assignment2)
 
@@ -120,18 +126,16 @@ func main() {
 		Work:         "this is the location of my document",
 	}
 	db.Create(work)
-
 }
 
 func cleanDb(db *gorm.DB) {
-	db.Exec("DELETE FROM CLASS_X_STUDENT CASCADE")
-	db.Exec("DELETE FROM GRADE CASCADE")
-	db.Exec("DELETE FROM WORK CASCADE")
-	db.Exec("DELETE FROM ASSIGNMENT CASCADE")
-	db.Exec("DELETE FROM RUBRIC CASCADE")
-	db.Exec("DELETE FROM CLASS CASCADE")
-	db.Exec("DELETE FROM INSTRUCTOR CASCADE")
-	db.Exec("DELETE FROM STUDENT CASCADE")
-	db.Exec("DELETE FROM INSTITUTION CASCADE")
-
+	db.Exec("DELETE FROM CLASS_X_STUDENT ")
+	db.Exec("DELETE FROM WORK ")
+	db.Exec("DELETE FROM GRADE ")
+	db.Exec("DELETE FROM ASSIGNMENT ")
+	db.Exec("DELETE FROM RUBRIC ")
+	db.Exec("DELETE FROM CLASS ")
+	db.Exec("DELETE FROM INSTRUCTOR ")
+	db.Exec("DELETE FROM STUDENT ")
+	db.Exec("DELETE FROM INSTITUTION ")
 }

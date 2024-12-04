@@ -1,8 +1,11 @@
 package main
 
 import (
-	"github.com/zentooling/graide/database"
+	"fmt"
 	"net/http"
+	"strconv"
+
+	"github.com/zentooling/graide/database"
 
 	"github.com/zentooling/graide/internal/auth"
 	"github.com/zentooling/graide/internal/config"
@@ -12,12 +15,12 @@ import (
 )
 
 type Contact struct {
-	ID     int
+	Errors map[string]string
 	First  string
 	Last   string
 	Phone  string
 	Email  string
-	Errors map[string]string
+	ID     int32
 }
 
 func NewContact() Contact {
@@ -34,7 +37,6 @@ type IndexPageData struct {
 var log = logger.New("main")
 
 func main() {
-
 	log.Println("server startup")
 
 	cfg := config.New("config.yml")
@@ -46,6 +48,7 @@ func main() {
 
 	log.Println("persistence initialization")
 	database.Initialize()
+	defer database.Shutdown()
 
 	mux := server.New(cfg.Server.Host + ":" + cfg.Server.Port)
 	mux.HandleFunc("POST /login", auth.Login)
@@ -59,7 +62,7 @@ func main() {
 		data := IndexPageData{
 			Search: r.URL.Query().Get("q"),
 			Contacts: []Contact{
-				{ID: 0, First: "Joey", Last: "Hambone", Phone: "303-555-1212", Email: "joey@hambone.com"},
+				{ID: 0, First: "Joey", Last: "Ham-bone", Phone: "303-555-1212", Email: "joey@hambone.com"},
 			},
 		}
 		err := view.ExecuteTemplate(w, template.INDEX, data)
@@ -68,7 +71,6 @@ func main() {
 		}
 	})
 	mux.HandleFunc("GET /institution", func(w http.ResponseWriter, r *http.Request) {
-
 		store := database.InstitutionStore{}
 
 		institutions := store.GetAll()
@@ -86,6 +88,27 @@ func main() {
 			},
 		}
 		err := view.ExecuteTemplate(w, template.CONTACT, data)
+		if err != nil {
+			log.Println("unable to execute template "+template.CONTACT, err)
+		}
+	})
+	mux.HandleFunc("GET /student/{studentID}", func(w http.ResponseWriter, r *http.Request) {
+		idString := r.PathValue("studentID")
+		id, err := strconv.ParseUint(idString, 10, 64)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		store := database.StudentStore{}
+
+		student := store.GetByIdWithClasses(uint(id))
+		pagaData := struct {
+			Student database.Student
+		}{
+			Student: *student,
+		}
+		err = view.ExecuteTemplate(w, template.STUDENT, pagaData)
 		if err != nil {
 			log.Println("unable to execute template "+template.CONTACT, err)
 		}
@@ -118,6 +141,13 @@ func main() {
 			log.Println("unable to execute template "+template.NEW, err)
 		}
 	})
+	mux.HandleFunc("POST /clicked/{id}", func(w http.ResponseWriter, r *http.Request) {
+		idString := r.PathValue("id")
+		stuff := fmt.Sprintf("<h1>You clicked me %s </h1>", idString)
+		tt := []byte(stuff)
+		log.Println("in GET clicked")
+		w.Write(tt)
+	})
 	mux.HandleFunc("POST /contact/new", func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		for key, value := range r.Form {
@@ -138,11 +168,8 @@ func main() {
 			}
 		} else {
 			http.Redirect(w, r, "/contact", http.StatusFound)
-
 		}
-
 	})
 	err := mux.Listen()
 	log.Fatal(err)
-
 }
